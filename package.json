@@ -1,0 +1,27 @@
+{
+  "name": "api-restoran",
+  "version": "1.1.0",
+  "description": "List Api Restoran",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Rafzy@bitbucket.org/Rafzy/api-restoran.git"
+  },
+  "keywords": [
+    "API",
+    "Restoran"
+  ],
+  "author": "Rafi Khoirulloh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/Rafzy/api-restoran/issues"
+  },
+  "homepage": "https://bitbucket.org/Rafzy/api-restoran#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node": "^16.5.0"
+  }
+}
