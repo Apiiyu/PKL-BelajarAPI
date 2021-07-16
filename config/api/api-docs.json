@@ -1,0 +1,29 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Restaurant",
+    "description": "List All API Restaurant. Created by: Rafi Khoirulloh",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Foods",
+      "description": "All Student Data"
+    },
+    {
+      "name": "Drinks",
+      "description": "All Class Data"
+    },
+    {
+      "name": "Snacks",
+      "description": "All User Data"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+  }
+}

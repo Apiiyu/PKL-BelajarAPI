@@ -8,7 +8,7 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const swaggerUI = require('swagger-ui-express')
 const session = require('express-session')
-const apiDocumentation = require('./api/api-docs')
+const apiDocumentation = require('./config/api/api-docs')
 const app = express()
 
 // Basic Set-up
