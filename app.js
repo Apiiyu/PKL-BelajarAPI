@@ -46,6 +46,8 @@ app.get('/', (req, res) => {
   })
 })
 
+app.use('/api-product', require('./routes/product'))
+app.use('/authentication', require('./routes/authentication'))
 // Error Handling
 app.get('*', (req, res) => {
   res.status(404).json({

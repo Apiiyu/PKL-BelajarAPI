@@ -3,7 +3,7 @@ const controller = {}
 
 controller.getAllData = async (req, res) => {
   try {
-    Model.Product.findAll()
+    await Model.Product.findAll()
       .then((result) => {
         if (result.length > 0) {
           res.status(200).json({
