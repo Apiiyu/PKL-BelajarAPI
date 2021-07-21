@@ -1,25 +1,21 @@
 const Model = require('../config/model/Index')
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const crypto = require('crypto')
 const md5 = require('md5')
+const jwt = require('jsonwebtoken')
 const controller = {}
+// const authTokens = {}
 const app = express()
 
 app.use(cookieParser())
-
-const generateToken = () => {
-  return crypto.randomBytes(30).toString('hex')
-}
 
 controller.login = async (req, res) => {
   try {
     await Model.Users.findAll({ where: { email: req.body.email, password: md5(req.body.password) } })
       .then((result) => {
         if (result.length > 0) {
-          const authToken = generateToken()
-          const cookie = res.cookie('AuthToken', authToken)
-          console.log(cookie)
+          res.cookie('authcookie', jwt.sign({ user: req.body.email }, 'users'))
+          res.send('Cookie Added')
         } else {
           res.render('login')
         }

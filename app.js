@@ -9,6 +9,7 @@ const morgan = require('morgan')
 const swaggerUI = require('swagger-ui-express')
 const session = require('express-session')
 const apiDocumentation = require('./config/api/api-docs')
+const authTokens = {}
 const app = express()
 
 // Basic Set-up
@@ -48,6 +49,17 @@ app.get('/', (req, res) => {
 
 app.use('/api-product', require('./routes/product'))
 app.use('/authentication', require('./routes/authentication'))
+app.use((req, res, next) => {
+  // Get auth token from the cookies
+  const authToken = req.cookies.AuthToken
+
+  // Inject the user to the request
+  req.user = authTokens[authToken]
+
+  next()
+})
+
+app.use('/protected', require('./routes/protected'))
 // Error Handling
 app.get('*', (req, res) => {
   res.status(404).json({

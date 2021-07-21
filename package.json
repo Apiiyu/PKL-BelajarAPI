@@ -1,6 +1,6 @@
 {
   "name": "api-restoran",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "List Api Restoran",
   "main": "app.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
