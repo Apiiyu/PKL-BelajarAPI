@@ -10,20 +10,231 @@
   "tags": [
     {
       "name": "Foods",
-      "description": "All Student Data"
+      "description": "Foods Data"
     },
     {
       "name": "Drinks",
-      "description": "All Class Data"
+      "description": "Drinks Data"
     },
     {
       "name": "Snacks",
-      "description": "All User Data"
+      "description": "Snacks Data"
+    },
+    {
+      "name": "Users",
+      "description": "Users Data"
     }
   ],
   "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+    "/api-product/foods": {
+      "get": {
+        "tags": ["Foods"],
+        "summary": "Get All Foods Data",
+        "description": "The system will return of foods data",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/authentication/get-data": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get All Users Data",
+        "description":"The system will return of users data",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/authentication/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login into your account",
+        "description": "The system will return of users data",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/authentication/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create new account!",
+        "description": "The system will create new account users",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/authentication/update": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update your account!",
+        "description": "The system will update account users",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "lastEmail": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/authentication/delete": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete account!",
+        "description": "The system will delete account users",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    }
   }
 }

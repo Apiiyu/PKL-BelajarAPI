@@ -27,4 +27,29 @@ controller.getAllData = async (req, res) => {
   }
 }
 
+controller.createFood = async (req, res) => {
+  try {
+    console.log(req.file)
+    // await Model.Product.create({
+    //   nama: req.body.nama,
+    //   category: req.body.category,
+    //   qty: req.body.qty,
+    //   price: req.body.price,
+    //   image: req.file.path
+    // })
+    //   .then((result) => {
+    //     res.status(200).json({
+    //       status: 200,
+    //       message: 'Successfully create new product!',
+    //       data: result
+    //     })
+    //   })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
 module.exports = controller

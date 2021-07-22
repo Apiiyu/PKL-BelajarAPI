@@ -6,7 +6,8 @@ const product = database.define('product', {
   nama: Sequelize.STRING,
   category: Sequelize.STRING,
   qty: Sequelize.INTEGER,
-  price: Sequelize.STRING
+  price: Sequelize.STRING,
+  image: Sequelize.STRING
 }, {
   freezeTableName: true,
   timestamps: false
