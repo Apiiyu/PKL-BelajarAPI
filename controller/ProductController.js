@@ -1,9 +1,35 @@
 const Model = require('../config/model/Index')
 const controller = {}
 
-controller.getAllData = async (req, res) => {
+controller.getAllDataFood = async (req, res) => {
   try {
-    await Model.Product.findAll()
+    await Model.Product.findAll({ where: { category: 'Food' } })
+      .then((result) => {
+        if (result.length > 0) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully get all data product!',
+            data: result
+          })
+        } else {
+          res.status(200).json({
+            status: 200,
+            message: 'Data not found',
+            data: []
+          })
+        }
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.getAllDataDrink = async (req, res) => {
+  try {
+    await Model.Product.findAll({ where: { category: 'Drink' } })
       .then((result) => {
         if (result.length > 0) {
           res.status(200).json({
@@ -28,10 +54,9 @@ controller.getAllData = async (req, res) => {
 }
 
 controller.createFood = async (req, res) => {
-  // console.log(req.file.path)
-  // console.log(req.body)
   try {
     await Model.Product.create({
+      itemCode: req.body.itemCode,
       nama: req.body.nama,
       category: req.body.category,
       qty: req.body.qty,
@@ -43,6 +68,67 @@ controller.createFood = async (req, res) => {
           status: 200,
           message: 'Successfully create new product!',
           data: result
+        })
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+controller.updateFood = async (req, res) => {
+  try {
+    if (req.body.nama || req.body.category || req.body.qty || req.body.price) {
+      await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty, price: req.body.price }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else if (req.body.nama || req.body.category || req.body.qty) {
+      await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty },
+        { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else if (req.body.nama || req.body.category) {
+      await Model.Product.update({ nama: req.body.nama, category: req.body.category },
+        { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else if (req.body.nama) {
+      await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: 'You should fill the field for update food'
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+controller.deleteFood = async (req, res) => {
+  try {
+    await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully delete menu!'
         })
       })
   } catch (error) {

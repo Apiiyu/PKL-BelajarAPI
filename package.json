@@ -1,6 +1,6 @@
 {
   "name": "api-restoran",
-  "version": "1.7.2",
+  "version": "1.8.2",
   "description": "List Api Restoran",
   "main": "app.js",
   "scripts": {

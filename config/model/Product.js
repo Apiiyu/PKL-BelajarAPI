@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const database = require('../database/db')
 
 const product = database.define('product', {
-  idProduct: { type: Sequelize.INTEGER, primaryKey: true },
+  itemCode: { type: Sequelize.CHAR, primaryKey: true },
   nama: Sequelize.STRING,
   category: Sequelize.STRING,
   qty: Sequelize.INTEGER,

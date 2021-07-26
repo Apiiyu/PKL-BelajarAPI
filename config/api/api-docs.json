@@ -50,6 +50,147 @@
         }
       }
     },
+    "/api-product/create-food": {
+      "post": {
+        "tags": ["Foods"],
+        "summary": "Create food menu",
+        "description": "The system will create food menu",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemCode": {
+                    "type": "string",
+                    "example": "FOOD6"
+                  },
+                  "nama": {
+                    "type": "string",
+                    "example": "Foodies"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "Food"
+                  },
+                  "qty": {
+                    "type": "integer",
+                    "example": "10"
+                  },
+                  "price": {
+                    "type": "string",
+                    "example": "Rp. 10.000"
+                  },
+                  "image": {
+                    "type": "file",
+                    "description": "file food image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/api-product/update-food": {
+      "put": {
+        "tags": ["Foods"],
+        "summary": "Update food menu",
+        "description": "The system will update food menu",
+        "consumes": "application/x-www-form-urlencoded",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemCode": {
+                    "type": "string"
+                  },
+                  "nama": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "qty": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "string"  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/api-product/delete-food": {
+      "delete": {
+        "tags": ["Foods"],
+        "summary": "Delete food menu",
+        "description": "The system will delete food menu",
+        "consumes": "application/x-www-form-urlencoded",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemCode": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
     "/authentication/get-data": {
       "get": {
         "tags": ["Users"],
@@ -76,10 +217,10 @@
         "tags": ["Users"],
         "summary": "Login into your account",
         "description": "The system will return of users data",
-        "consumes": "multipart/form-data",
+        "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -115,10 +256,10 @@
         "tags": ["Users"],
         "summary": "Create new account!",
         "description": "The system will create new account users",
-        "consumes": "multipart/form-data",
+        "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -157,10 +298,10 @@
         "tags": ["Users"],
         "summary": "Update your account!",
         "description": "The system will update account users",
-        "consumes": "multipart/form-data",
+        "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -202,10 +343,10 @@
         "tags": ["Users"],
         "summary": "Delete account!",
         "description": "The system will delete account users",
-        "consumes": "multipart/form-data",
+        "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
