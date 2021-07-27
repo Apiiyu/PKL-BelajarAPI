@@ -1,3 +1,5 @@
+'use strict'
+
 const Model = require('../config/model/Index')
 const controller = {}
 
@@ -79,6 +81,30 @@ controller.updateFood = async (req, res) => {
         })
     } else if (req.body.nama) {
       await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else if (req.body.category) {
+      await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else if (req.body.qty) {
+      await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update food data'
+          })
+        })
+    } else if (req.body.price) {
+      await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
           res.status(200).json({
             status: 200,
@@ -196,6 +222,30 @@ controller.updateDrink = async (req, res) => {
             message: 'Successfully update drink data'
           })
         })
+    } else if (req.body.category) {
+      await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update drink data'
+          })
+        })
+    } else if (req.body.qty) {
+      await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update drink data'
+          })
+        })
+    } else if (req.body.price) {
+      await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update drink data'
+          })
+        })
     } else {
       res.status(400).json({
         status: 400,
@@ -208,6 +258,140 @@ controller.updateDrink = async (req, res) => {
 }
 
 controller.deleteDrink = async (req, res) => {
+  try {
+    await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully delete menu!'
+        })
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// <-- Controller section Snacks -->
+controller.getAllDataSnacks = async (req, res) => {
+  try {
+    await Model.Product.findAll({ where: { category: 'Snack' } })
+      .then((result) => {
+        if (result.length > 0) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully get all data product!',
+            data: result
+          })
+        } else {
+          res.status(200).json({
+            status: 200,
+            message: 'Data not found',
+            data: []
+          })
+        }
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.createSnack = async (req, res) => {
+  try {
+    await Model.Product.create({
+      itemCode: req.body.itemCode,
+      nama: req.body.nama,
+      category: req.body.category,
+      qty: req.body.qty,
+      price: req.body.price,
+      image: req.file.path
+    })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully create new product!',
+          data: result
+        })
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+controller.updateSnack = async (req, res) => {
+  try {
+    if (req.body.nama || req.body.category || req.body.qty || req.body.price) {
+      await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty, price: req.body.price }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else if (req.body.nama || req.body.category || req.body.qty) {
+      await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty },
+        { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else if (req.body.nama || req.body.category) {
+      await Model.Product.update({ nama: req.body.nama, category: req.body.category },
+        { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else if (req.body.nama) {
+      await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else if (req.body.category) {
+      await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else if (req.body.qty) {
+      await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else if (req.body.price) {
+      await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
+        .then((result) => {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully update snack data'
+          })
+        })
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: 'You should fill the field for update snack'
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+controller.deleteSnack = async (req, res) => {
   try {
     await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
       .then((result) => {

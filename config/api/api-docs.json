@@ -32,7 +32,7 @@
     "/api-product/foods": {
       "get": {
         "tags": ["Foods"],
-        "summary": "Get All Foods Data",
+        "summary": "Get all foods data",
         "description": "The system will return of foods data",
         "responses": {
           "200": {
@@ -194,7 +194,7 @@
     "/api-product/drinks": {
       "get": {
         "tags": ["Drinks"],
-        "summary": "Get All Drinks Data",
+        "summary": "Get all drinks data",
         "description":"The system will return of drinks data",
         "responses": {
           "200": {
@@ -215,7 +215,7 @@
     "/api-product/create-drink": {
       "post": {
         "tags": ["Drinks"],
-        "summary": "Create Drink menu",
+        "summary": "Create drink menu",
         "description": "The system will create Drink menu",
         "consumes": "multipart/form-data",
         "requestBody": {
@@ -353,10 +353,172 @@
         }
       }
     },
+    "/api-product/snacks": {
+      "get": {
+        "tags": ["Snacks"],
+        "summary": "Get all snack data",
+        "description":"The system will return of snack data",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/api-product/create-snack": {
+      "post": {
+        "tags": ["Snacks"],
+        "summary": "Create snack menu",
+        "description": "The system will create snack menu",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemCode": {
+                    "type": "string",
+                    "example": "SNACK1"
+                  },
+                  "nama": {
+                    "type": "string",
+                    "example": "Snackies"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "Snack"
+                  },
+                  "qty": {
+                    "type": "integer",
+                    "example": "5"
+                  },
+                  "price": {
+                    "type": "string",
+                    "example": "Rp. 3.000"
+                  },
+                  "image": {
+                    "type": "file",
+                    "description": "file snack image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/api-product/update-snack": {
+      "put": {
+        "tags": ["Snacks"],
+        "summary": "Update snack menu",
+        "description": "The system will update snack menu",
+        "consumes": "application/x-www-form-urlencoded",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemCode": {
+                    "type": "string"
+                  },
+                  "nama": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "qty": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "string"  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/api-product/delete-snack": {
+      "delete": {
+        "tags": ["Snacks"],
+        "summary": "Delete snack menu",
+        "description": "The system will delete snack menu",
+        "consumes": "application/x-www-form-urlencoded",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemCode": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
     "/authentication/get-data": {
       "get": {
         "tags": ["Users"],
-        "summary": "Get All Users Data",
+        "summary": "Get all users data",
         "description":"The system will return of users data",
         "responses": {
           "200": {
