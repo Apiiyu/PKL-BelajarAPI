@@ -540,6 +540,11 @@
       "post": {
         "tags": ["Users"],
         "summary": "Login into your account",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will return of users data",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -701,5 +706,18 @@
         }
       }
     }
-  }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [ 
+    {
+      "basicAuth": []
+    }
+  ]
 }
