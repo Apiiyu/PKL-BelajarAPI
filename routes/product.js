@@ -3,6 +3,15 @@ const router = express.Router()
 const multer = require('multer')
 const controller = require('../controller/IndexController')
 
+const storageMenu = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/images/menu')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  }
+})
+
 const storageFood = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './public/images/foods')
@@ -33,6 +42,13 @@ const storageSnack = multer.diskStorage({
 const uploadFoods = multer({ storage: storageFood, limits: { fieldSize: 1024 * 1024 * 10 } })
 const uploadDrinks = multer({ storage: storageDrink, limits: { fieldSize: 1024 * 1024 * 10 } })
 const uploadSnacks = multer({ storage: storageSnack, limits: { fieldSize: 1024 * 1024 * 10 } })
+const uploadMenu = multer({ storage: storageMenu, limits: { fieldSize: 1024 * 1024 * 10 } })
+
+// <-- Router Section Menu -->
+router.get('/menu', controller.ProductController.getAllDataMenu)
+router.post('/create-menu', uploadMenu.single('image'), controller.ProductController.createMenu)
+router.put('/update-menu', controller.ProductController.updateMenu)
+router.delete('/delete-menu', controller.ProductController.deleteMenu)
 
 // <-- Router Section Foods -->
 router.get('/foods', controller.ProductController.getAllDataFood)
