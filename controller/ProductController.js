@@ -10,11 +10,18 @@ controller.getAllDataMenu = async (req, res) => {
     await Model.Product.findAll()
       .then((result) => {
         if (result.length > 0) {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully get all data product!',
-            data: result
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully get all data product!',
+              data: result
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         } else {
           res.status(200).json({
             status: 200,
@@ -42,11 +49,18 @@ controller.createMenu = async (req, res) => {
       image: req.file.path
     })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully create new product!',
-          data: result
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully create new product!',
+            data: result
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -58,60 +72,109 @@ controller.updateMenu = async (req, res) => {
     if (req.body.nama || req.body.category || req.body.qty || req.body.price) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty, price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category || req.body.qty) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama) {
       await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.category) {
       await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.qty) {
       await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.price) {
       await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update menu'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update menu'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else {
       res.status(400).json({
@@ -128,10 +191,17 @@ controller.deleteMenu = async (req, res) => {
   try {
     await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully delete menu!'
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully delete menu!'
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -145,17 +215,31 @@ controller.getAllDataFood = async (req, res) => {
     await Model.Product.findAll({ where: { category: 'Food' } })
       .then((result) => {
         if (result.length > 0) {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully get all data product!',
-            data: result
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully get all data product!',
+              data: result
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         } else {
-          res.status(200).json({
-            status: 200,
-            message: 'Data not found',
-            data: []
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Data not found',
+              data: []
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         }
       })
   } catch (error) {
@@ -177,11 +261,18 @@ controller.createFood = async (req, res) => {
       image: req.file.path
     })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully create new product!',
-          data: result
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully create new product!',
+            data: result
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -193,60 +284,109 @@ controller.updateFood = async (req, res) => {
     if (req.body.nama || req.body.category || req.body.qty || req.body.price) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty, price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category || req.body.qty) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama) {
       await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.category) {
       await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.qty) {
       await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.price) {
       await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update food data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update food data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else {
       res.status(400).json({
@@ -263,10 +403,17 @@ controller.deleteFood = async (req, res) => {
   try {
     await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully delete menu!'
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully delete menu!'
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -280,17 +427,31 @@ controller.getAllDataDrink = async (req, res) => {
     await Model.Product.findAll({ where: { category: 'Drink' } })
       .then((result) => {
         if (result.length > 0) {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully get all data product!',
-            data: result
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully get all data product!',
+              data: result
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         } else {
-          res.status(200).json({
-            status: 200,
-            message: 'Data not found',
-            data: []
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Data not found',
+              data: []
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         }
       })
   } catch (error) {
@@ -312,11 +473,18 @@ controller.createDrink = async (req, res) => {
       image: req.file.path
     })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully create new product!',
-          data: result
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully create new product!',
+            data: result
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -328,60 +496,109 @@ controller.updateDrink = async (req, res) => {
     if (req.body.nama || req.body.category || req.body.qty || req.body.price) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty, price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category || req.body.qty) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama) {
       await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.category) {
       await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.qty) {
       await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.price) {
       await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update drink data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update drink data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else {
       res.status(400).json({
@@ -398,10 +615,17 @@ controller.deleteDrink = async (req, res) => {
   try {
     await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully delete menu!'
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully delete menu!'
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -414,17 +638,31 @@ controller.getAllDataSnacks = async (req, res) => {
     await Model.Product.findAll({ where: { category: 'Snack' } })
       .then((result) => {
         if (result.length > 0) {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully get all data product!',
-            data: result
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully get all data product!',
+              data: result
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         } else {
-          res.status(200).json({
-            status: 200,
-            message: 'Data not found',
-            data: []
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Data not found',
+              data: []
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         }
       })
   } catch (error) {
@@ -446,11 +684,18 @@ controller.createSnack = async (req, res) => {
       image: req.file.path
     })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully create new product!',
-          data: result
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully create new product!',
+            data: result
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)
@@ -462,60 +707,109 @@ controller.updateSnack = async (req, res) => {
     if (req.body.nama || req.body.category || req.body.qty || req.body.price) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty, price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category || req.body.qty) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category, qty: req.body.qty },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama || req.body.category) {
       await Model.Product.update({ nama: req.body.nama, category: req.body.category },
         { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.nama) {
       await Model.Product.update({ nama: req.body.nama }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.category) {
       await Model.Product.update({ category: req.body.category }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.qty) {
       await Model.Product.update({ qty: req.body.qty }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else if (req.body.price) {
       await Model.Product.update({ price: req.body.price }, { where: { itemCode: req.body.itemCode } })
         .then((result) => {
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully update snack data'
-          })
+          if (req.headers.authorization) {
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully update snack data'
+            })
+          } else {
+            res.status(401).json({
+              status: 401,
+              message: 'Unauthorized'
+            })
+          }
         })
     } else {
       res.status(400).json({
@@ -532,10 +826,17 @@ controller.deleteSnack = async (req, res) => {
   try {
     await Model.Product.destroy({ where: { itemCode: req.body.itemCode } })
       .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully delete menu!'
-        })
+        if (req.headers.authorization) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully delete menu!'
+          })
+        } else {
+          res.status(401).json({
+            status: 401,
+            message: 'Unauthorized'
+          })
+        }
       })
   } catch (error) {
     console.log(error)

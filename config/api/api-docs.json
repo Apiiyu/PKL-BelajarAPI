@@ -37,6 +37,11 @@
       "get": {
         "tags": ["Menu"],
         "summary": "Get all foods menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will return of menu data",
         "responses": {
           "200": {
@@ -44,6 +49,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -58,6 +66,11 @@
       "post": {
         "tags": ["Menu"],
         "summary": "Create new any menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will create any menu",
         "consumes": "multipart/form-data",
         "requestBody": {
@@ -102,6 +115,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -115,6 +131,11 @@
       "put": {
         "tags": ["Menu"],
         "summary": "Update any menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will update any menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -150,6 +171,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -163,6 +187,11 @@
       "delete": {
         "tags": ["Menu"],
         "summary": "Delete any menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will delete any menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -186,6 +215,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -199,6 +231,11 @@
       "get": {
         "tags": ["Foods"],
         "summary": "Get all foods data",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will return of foods data",
         "responses": {
           "200": {
@@ -206,6 +243,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -220,6 +260,11 @@
       "post": {
         "tags": ["Foods"],
         "summary": "Create food menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will create food menu",
         "consumes": "multipart/form-data",
         "requestBody": {
@@ -264,6 +309,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -277,6 +325,11 @@
       "put": {
         "tags": ["Foods"],
         "summary": "Update food menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will update food menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -312,6 +365,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -325,6 +381,11 @@
       "delete": {
         "tags": ["Foods"],
         "summary": "Delete food menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will delete food menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -348,6 +409,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -361,10 +425,18 @@
       "get": {
         "tags": ["Drinks"],
         "summary": "Get all drinks data",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description":"The system will return of drinks data",
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "400": {
             "description": "Bad Request"
@@ -382,6 +454,11 @@
       "post": {
         "tags": ["Drinks"],
         "summary": "Create drink menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will create Drink menu",
         "consumes": "multipart/form-data",
         "requestBody": {
@@ -426,6 +503,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -439,6 +519,11 @@
       "put": {
         "tags": ["Drinks"],
         "summary": "Update drink menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will update drink menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -474,6 +559,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -487,6 +575,11 @@
       "delete": {
         "tags": ["Drinks"],
         "summary": "Delete drink menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will delete drink menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -510,6 +603,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -523,6 +619,11 @@
       "get": {
         "tags": ["Snacks"],
         "summary": "Get all snack data",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description":"The system will return of snack data",
         "responses": {
           "200": {
@@ -530,6 +631,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -544,6 +648,11 @@
       "post": {
         "tags": ["Snacks"],
         "summary": "Create snack menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will create snack menu",
         "consumes": "multipart/form-data",
         "requestBody": {
@@ -588,6 +697,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -601,6 +713,11 @@
       "put": {
         "tags": ["Snacks"],
         "summary": "Update snack menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will update snack menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -636,6 +753,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -649,6 +769,11 @@
       "delete": {
         "tags": ["Snacks"],
         "summary": "Delete snack menu",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will delete snack menu",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -672,6 +797,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -685,6 +813,11 @@
       "get": {
         "tags": ["Users"],
         "summary": "Get all users data",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description":"The system will return of users data",
         "responses": {
           "200": {
@@ -692,6 +825,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -737,6 +873,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -750,6 +889,11 @@
       "post": {
         "tags": ["Users"],
         "summary": "Create new account!",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will create new account users",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -779,6 +923,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -792,6 +939,11 @@
       "put": {
         "tags": ["Users"],
         "summary": "Update your account!",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will update account users",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -824,6 +976,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -837,6 +992,11 @@
       "delete": {
         "tags": ["Users"],
         "summary": "Delete account!",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "description": "The system will delete account users",
         "consumes": "application/x-www-form-urlencoded",
         "requestBody": {
@@ -862,6 +1022,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
