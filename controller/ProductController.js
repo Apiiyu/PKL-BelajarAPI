@@ -843,4 +843,30 @@ controller.deleteSnack = async (req, res) => {
   }
 }
 
+// <-- Controller Orders -->
+controller.orders = async (req, res) => {
+  try {
+    const qtyOrder = req.body.qty
+    await Model.Product.findAll({ where: { nama: req.body.nama } })
+      .then((result) => {
+        const setData = result[0]
+        const data = setData.dataValues
+        const qtyDefault = data.qty
+        const newQty = qtyDefault - qtyOrder
+        const defaultPrice = data.price
+        const newPrice = defaultPrice * qtyOrder
+
+        Model.Product.update({ qty: newQty }, { where: { nama: req.body.nama } })
+          .then((result) => {
+            res.status(200).json({
+              status: 200,
+              message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
+            })
+          })
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = controller

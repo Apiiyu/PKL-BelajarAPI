@@ -67,4 +67,8 @@ router.get('/snacks', controller.ProductController.getAllDataSnacks)
 router.post('/create-snack', uploadSnacks.single('image'), controller.ProductController.createSnack)
 router.put('/update-snack', controller.ProductController.updateSnack)
 router.delete('/delete-snack', controller.ProductController.deleteSnack)
+
+// <-- Router Section Orders -->
+router.post('/orders', controller.ProductController.orders)
+
 module.exports = router
