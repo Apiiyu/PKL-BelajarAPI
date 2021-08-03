@@ -248,7 +248,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "nama": {
+                  "nameUser": {
+                    "type": "string"
+                  },
+                  "orders": {
                     "type": "string"
                   },
                   "qty": {

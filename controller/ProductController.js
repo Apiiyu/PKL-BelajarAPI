@@ -847,7 +847,7 @@ controller.deleteSnack = async (req, res) => {
 controller.orders = async (req, res) => {
   try {
     const qtyOrder = req.body.qty
-    await Model.Product.findAll({ where: { nama: req.body.nama } })
+    await Model.Product.findAll({ where: { nama: req.body.orders } })
       .then((result) => {
         const setData = result[0]
         const data = setData.dataValues
@@ -856,13 +856,30 @@ controller.orders = async (req, res) => {
         const defaultPrice = data.price
         const newPrice = defaultPrice * qtyOrder
 
-        Model.Product.update({ qty: newQty }, { where: { nama: req.body.nama } })
+        if (newQty < 0) {
+          res.status(200).json({
+            status: 200,
+            message: 'Sorry, the menu you ordered is only available in a few. Please choose another menu again'
+          })
+          return false
+        }
+
+        Model.Product.update({ qty: newQty }, { where: { nama: req.body.orders } })
           .then((result) => {
             res.status(200).json({
               status: 200,
               message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
             })
           })
+        // <-- Insert Data Transaction to database -->
+        Model.Transaction.create({
+          nameUser: req.body.nameUser,
+          orders: req.body.orders,
+          qty: req.body.qty,
+          price: defaultPrice,
+          totalPrice: newPrice,
+          date: Date.now()
+        })
       })
   } catch (error) {
     console.log(error)
