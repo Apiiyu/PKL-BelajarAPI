@@ -31,10 +31,49 @@ const options = {
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDocumentation, options))
 
+// <-- Stripe Payment Gateway -->
+const publishKey = 'pk_test_51JL1JaLNXpkOIJz68xqKw4e5rmDTXH8HFUJP7OJqFpsPYIsk3bzY74Kbccq7xiLWxHvct9LPDE0CziIAeeG5gxb400eaDJ4zoh'
+const secretKey = 'sk_test_51JL1JaLNXpkOIJz6Tqbt6ooiFuwY3wN6AYb996pKv9jscCkxXrAZ8oQWMUFsJBTyYcb9xa6SC3krlnc1KoaOLtpQ00zwd0kf8i'
+const stripePayment = require('stripe')(secretKey)
+
 app.get('/', (req, res) => {
-  res.json({
-    message: 'testing'
+  res.render('payment', { key: publishKey })
+})
+
+app.post('/payment', (req, res) => {
+  stripePayment.customers.create({
+    email: req.body.email,
+    source: req.body.stripeToken,
+    name: 'Rafi Khoirulloh',
+    address: {
+      line1: 'Jl. Babakan Jati',
+      postal_code: '40275',
+      city: 'Bandung',
+      state: 'Jawa Barat',
+      country: 'Indonesia'
+    }
   })
+    .then((customer) => {
+      return stripePayment.chargers.create({
+        amount: 7000,
+        description: 'Purchase Menu Restaurant',
+        currency: 'IDR',
+        customer: customer.id
+      })
+    })
+    .then((charge) => {
+      res.status(200).json({
+        status: 200,
+        message: 'Payment Successfully',
+        data: charge
+      })
+    })
+    .catch((error) => {
+      res.status(400).json({
+        status: 400,
+        message: error
+      })
+    })
 })
 
 app.use('/api-product', require('./routes/product'))

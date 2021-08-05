@@ -1,0 +1,8 @@
+doctype html
+html 
+  head 
+    title Stripe Payment Demo
+  body
+    h3 Welcome to Payment Gateway
+    form(action='payment', method='POST')
+      script.stripe-button(src='//checkout.stripe.com/v2/checkout.js', data-key=key, data-amount='120.000', data-currency='idr', data-name='Rafi Khoirulloh', data-description='Payment menu restaurant', data-locale='auto')
