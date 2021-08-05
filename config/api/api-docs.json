@@ -241,10 +241,10 @@
           }
         ],
         "description": "The system will return orders info",
-        "consumes": "application/x-www-form-urlencoded",
+        "consumes": "application/json",
         "requestBody": {
           "content": {
-            "application/x-www-form-urlencoded": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
