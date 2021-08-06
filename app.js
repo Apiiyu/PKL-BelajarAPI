@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 
 app.post('/payment', (req, res) => {
   stripePayment.customers.create({
-    email: req.body.email,
+    email: req.body.stripeEmail,
     source: req.body.stripeToken,
     name: 'Rafi Khoirulloh',
     address: {
@@ -54,10 +54,10 @@ app.post('/payment', (req, res) => {
     }
   })
     .then((customer) => {
-      return stripePayment.chargers.create({
-        amount: 7000,
-        description: 'Purchase Menu Restaurant',
-        currency: 'IDR',
+      return stripePayment.charges.create({
+        amount: 25000, // Charing Rs 25
+        description: 'Web Development Product',
+        currency: 'INR',
         customer: customer.id
       })
     })
@@ -69,10 +69,7 @@ app.post('/payment', (req, res) => {
       })
     })
     .catch((error) => {
-      res.status(400).json({
-        status: 400,
-        message: error
-      })
+      console.log(error)
     })
 })
 

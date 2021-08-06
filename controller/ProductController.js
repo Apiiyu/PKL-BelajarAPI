@@ -860,8 +860,9 @@ controller.orders = async (req, res) => {
                 const dataMenu = setData.dataValues
                 const qtyDefault = dataMenu.qty
                 const finalQtyMenu = qtyDefault - dataQty[indexOrders]
-                // const defaultPrice = dataMenu.price
-                // const finalPriceMenu = defaultPrice * finalQtyMenu
+                console.log(finalQtyMenu)
+                const defaultPrice = dataMenu.price
+                const finalPriceMenu = defaultPrice * finalQtyMenu
 
                 if (finalQtyMenu < 0) {
                   res.status(200).json({
@@ -874,7 +875,7 @@ controller.orders = async (req, res) => {
                 Model.Product.update({ qty: finalQtyMenu }, { where: { nama: dataOrders[indexOrders] } })
                 res.status(200).json({
                   status: 200,
-                  message: 'Successfully received your order!'
+                  message: `Successfully received your order!, price menu is ${finalPriceMenu}`
                 })
               } else {
                 res.status(400).json({
