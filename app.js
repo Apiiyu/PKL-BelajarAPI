@@ -37,6 +37,10 @@ const secretKey = 'sk_test_51JL1JaLNXpkOIJz6Tqbt6ooiFuwY3wN6AYb996pKv9jscCkxXrAZ
 const stripePayment = require('stripe')(secretKey)
 
 app.get('/', (req, res) => {
+  res.redirect('/api-docs')
+})
+
+app.get('/ui-payment', (req, res) => {
   res.render('payment', { key: publishKey })
 })
 
