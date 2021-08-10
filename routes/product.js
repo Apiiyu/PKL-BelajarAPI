@@ -70,5 +70,6 @@ router.delete('/delete-snack', controller.ProductController.deleteSnack)
 
 // <-- Router Section Orders -->
 router.post('/orders', controller.ProductController.orders)
+router.get('/filter-transaction/:transactionID', controller.ProductController.getDataTransaction)
 
 module.exports = router

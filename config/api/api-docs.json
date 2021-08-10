@@ -234,7 +234,7 @@
     "/api-product/orders": {
       "post": {
         "tags": ["Order"],
-        "summary": "Section orders menu in restaurant",
+        "summary": "Orders menu in restaurant",
         "security": [
           {
             "basicAuth": []
@@ -262,6 +262,47 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/api-product/filter-transaction/{transactionID}":{
+      "get": {
+        "tags": ["Order"],
+        "summary": "Get transaction order in restaurant",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "description": "The system will return orders info",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionID",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Input your transaction id",
+            "example": "0-100"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"

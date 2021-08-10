@@ -877,6 +877,16 @@ controller.orders = async (req, res) => {
                 //   status: 200,
                 //   message: `Successfully received your order!, price menu is ${finalPriceMenu}`
                 // })
+
+                // <-- Insert Data Transaction to database -->
+                // Model.Transaction.create({
+                //   nameUser: req.body.nameUser,
+                //   orders: req.body.orders,
+                //   qty: req.body.qty,
+                //   price: defaultPrice,
+                //   totalPrice: finalPriceMenu,
+                //   date: Date.now()
+                // })
               } else {
                 res.status(400).json({
                   status: 400,
@@ -885,17 +895,7 @@ controller.orders = async (req, res) => {
                 return false
               }
             })
-        } 
-        // console.log()
-        // <-- Insert Data Transaction to database -->
-        // Model.Transaction.create({
-        //   nameUser: req.body.nameUser,
-        //   orders: req.body.orders,
-        //   qty: req.body.qty,
-        //   price: defaultPrice,
-        //   totalPrice: newPrice,
-        //   date: Date.now()
-        // })
+        }
       } else {
         const qtyOrder = req.body.qty
         await Model.Product.findAll({ where: { nama: req.body.orders } })
@@ -947,6 +947,28 @@ controller.orders = async (req, res) => {
         message: 'Unauthorized'
       })
     }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+controller.getDataTransaction = async (req, res) => {
+  try {
+    await Model.Transaction.findAll({ where: { transactionID: req.params.transactionID } })
+      .then((result) => {
+        if (result.length > 0) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully get data transaction',
+            transaction: result
+          })
+        } else {
+          res.status(404).json({
+            status: 404,
+            message: 'Data transaction not found!'
+          })
+        }
+      })
   } catch (error) {
     console.log(error)
   }
