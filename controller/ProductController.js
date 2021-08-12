@@ -1,6 +1,7 @@
 'use strict'
 
 const Model = require('../config/model/Index')
+const { Op } = require('sequelize')
 const controller = {}
 
 // <-- Controller All Menu -->
@@ -26,6 +27,62 @@ controller.getAllDataMenu = async (req, res) => {
           res.status(200).json({
             status: 200,
             message: 'Data not found',
+            data: []
+          })
+        }
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.detailMenu = async (req, res) => {
+  try {
+    await Model.DetailProduct.findAll({ where: { itemCode: req.params.itemCode } })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully get data detail product!',
+          data: result
+        })
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.searchMenu = async (req, res) => {
+  try {
+    await Model.Product.findAll({
+      where: {
+        [Op.or]: [{
+          itemCode: {
+            [Op.like]: `%${req.params.keyword}%`
+          }
+        }, {
+          nama: {
+            [Op.like]: `%${req.params.keyword}%`
+          }
+        }]
+      }
+    })
+      .then((result) => {
+        if (result.length > 0) {
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully search menu!',
+            data: result
+          })
+        } else {
+          res.status(404).json({
+            status: 404,
+            message: 'Menu not found!',
             data: []
           })
         }
