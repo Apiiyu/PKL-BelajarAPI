@@ -39,24 +39,6 @@ controller.getAllDataMenu = async (req, res) => {
   }
 }
 
-controller.detailMenu = async (req, res) => {
-  try {
-    await Model.DetailProduct.findAll({ where: { itemCode: req.params.itemCode } })
-      .then((result) => {
-        res.status(200).json({
-          status: 200,
-          message: 'Successfully get data detail product!',
-          data: result
-        })
-      })
-  } catch (error) {
-    res.status(400).json({
-      status: 400,
-      message: error
-    })
-  }
-}
-
 controller.searchMenu = async (req, res) => {
   try {
     await Model.Product.findAll({
@@ -262,6 +244,85 @@ controller.deleteMenu = async (req, res) => {
       })
   } catch (error) {
     console.log(error)
+  }
+}
+
+// <-- Controller detail menu -->
+controller.detailMenu = async (req, res) => {
+  try {
+    await Model.DetailProduct.findAll({ where: { itemCode: req.params.itemCode } })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully get data detail product!',
+          data: result
+        })
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.createDetailMenu = async (req, res) => {
+  try {
+    await Model.DetailProduct.create({
+      itemCode: req.body.itemCode,
+      detail: req.body.detail,
+      foodMaker: req.body.foodMaker
+    })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully create new detail menu!',
+          data: result
+        })
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.updateDetailMenu = async (req, res) => {
+  try {
+    await Model.DetailProduct.update({
+      detail: req.body.detail,
+      foodMaker: req.body.foodMaker
+    }, { where: { itemCode: req.body.itemCode } })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully update detail menu!',
+          data: result
+        })
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
+  }
+}
+
+controller.deleteDetailMenu = async (req, res) => {
+  try {
+    await Model.DetailProduct.destroy({ where: { itemCode: req.body.itemCode } })
+      .then((result) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully delete detail menu!'
+        })
+      })
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error
+    })
   }
 }
 

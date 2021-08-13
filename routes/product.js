@@ -46,11 +46,16 @@ const uploadMenu = multer({ storage: storageMenu, limits: { fieldSize: 1024 * 10
 
 // <-- Router Section Menu -->
 router.get('/menu', controller.ProductController.getAllDataMenu)
-router.get('/detail-menu/:itemCode', controller.ProductController.detailMenu)
 router.get('/search-menu/:keyword', controller.ProductController.searchMenu)
 router.post('/create-menu', uploadMenu.single('image'), controller.ProductController.createMenu)
 router.put('/update-menu', controller.ProductController.updateMenu)
 router.delete('/delete-menu', controller.ProductController.deleteMenu)
+
+// <-- Router Section Detail Menu -->
+router.get('/detail-menu/:itemCode', controller.ProductController.detailMenu)
+router.post('/create-detail-menu', controller.ProductController.createDetailMenu)
+router.put('update-detail-menu', controller.ProductController.updateDetailMenu)
+router.delete('/delete-detail-menu', controller.ProductController.deleteDetailMenu)
 
 // <-- Router Section Foods -->
 router.get('/foods', controller.ProductController.getAllDataFood)
