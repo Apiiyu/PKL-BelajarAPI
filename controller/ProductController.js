@@ -968,8 +968,8 @@ controller.orders = async (req, res) => {
     if (req.headers.authorization) {
       const dataOrders = req.body.orders
       const dataQty = req.body.qty
-      const reducer = (accumulator, currentValue) => accumulator + currentValue
-      console.log(dataQty.reduce(reducer))
+      // const reducer = (accumulator, currentValue) => accumulator + currentValue
+      // console.log(dataQty.reduce(reducer))
       let finalPriceMenu = 0
 
       if (dataOrders.length > 1 && dataQty.length > 1) {
@@ -1056,6 +1056,7 @@ controller.orders = async (req, res) => {
                 qty: req.body.qty,
                 price: defaultPrice,
                 totalPrice: newPrice,
+                totalPay: newPrice,
                 date: Date.now()
               })
             } else {
