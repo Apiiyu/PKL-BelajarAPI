@@ -1006,12 +1006,27 @@ controller.orders = async (req, res) => {
                   totalPay: finalPriceMenu,
                   date: Date.now()
                 })
-                  .then((result) => {
+
+                // <-- Get Transaction ID -->
+                Model.Transaction.findAll({
+                  where: {
+                    [Op.and]: [
+                      { totalPay: finalPriceMenu },
+                      { nameUser: req.body.nameUser }
+                    ]
+                  }
+                })
+                  .then((dataTransaction) => {
+                    const setDataTransaction = dataTransaction[0]
+                    const Transaction = setDataTransaction.dataValues
+                    const transactionID = Transaction.transactionID
                     res.status(200).json({
                       status: 200,
-                      message: `Successfully receive your orders. You should pay ${finalPriceMenu} for get your orders!`
+                      transactionID: transactionID,
+                      message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
                     })
                   })
+                console.log('Transaction Success!')
               } else {
                 res.status(400).json({
                   status: 400,
@@ -1020,7 +1035,7 @@ controller.orders = async (req, res) => {
                 return false
               }
             })
-        } console.log(finalPriceMenu)
+        }
       } else {
         const qtyOrder = req.body.qty
         await Model.Product.findAll({ where: { nama: req.body.orders } })
@@ -1042,12 +1057,6 @@ controller.orders = async (req, res) => {
               }
 
               Model.Product.update({ qty: newQty }, { where: { nama: req.body.orders[0] } })
-                .then((result) => {
-                  res.status(200).json({
-                    status: 200,
-                    message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
-                  })
-                })
 
               // <-- Insert Data Transaction to database -->
               Model.Transaction.create({
@@ -1059,6 +1068,27 @@ controller.orders = async (req, res) => {
                 totalPay: newPrice,
                 date: Date.now()
               })
+
+              // <-- Get Transaction ID -->
+              Model.Transaction.findAll({
+                where: {
+                  [Op.and]: [
+                    { totalPay: newPrice },
+                    { nameUser: req.body.nameUser }
+                  ]
+                }
+              })
+                .then((transaction) => {
+                  const setDataTrans = transaction[0]
+                  const dataTransaction = setDataTrans.dataValues
+                  const transactionID = dataTransaction.transactionID
+                  console.log(transactionID)
+                  res.status(200).json({
+                    status: 200,
+                    transactionID: transactionID,
+                    message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
+                  })
+                })
             } else {
               res.status(400).json({
                 status: 400,
