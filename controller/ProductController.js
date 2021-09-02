@@ -970,9 +970,13 @@ controller.orders = async (req, res) => {
       const dataQty = req.body.qty
       // const reducer = (accumulator, currentValue) => accumulator + currentValue
       // console.log(dataQty.reduce(reducer))
-      let finalPriceMenu = 0
+      const dataMenuUser = JSON.stringify(dataOrders)
+      const qtyMenuUser = JSON.stringify(dataQty)
+      const dataPriceMenu = []
+      const totalPricePerMenu = []
 
       if (dataOrders.length > 1 && dataQty.length > 1) {
+        let finalPriceMenu = 0
         for (let indexOrders = 0; indexOrders < dataOrders.length; indexOrders++) {
           await Model.Product.findAll({ where: { nama: dataOrders[indexOrders] } })
             .then((result) => {
@@ -983,6 +987,8 @@ controller.orders = async (req, res) => {
                 const finalQtyMenu = qtyDefault - dataQty[indexOrders]
                 const price = dataMenu.price
                 const PriceMenu = price * dataQty[indexOrders]
+                dataPriceMenu.push(price)
+                totalPricePerMenu.push(PriceMenu)
                 finalPriceMenu += PriceMenu
 
                 if (finalQtyMenu < 0) {
@@ -995,38 +1001,6 @@ controller.orders = async (req, res) => {
 
                 // <-- Update data product without response -->
                 Model.Product.update({ qty: finalQtyMenu }, { where: { nama: dataOrders[indexOrders] } })
-
-                // <-- Insert Data Transaction to database -->
-                Model.Transaction.create({
-                  nameUser: req.body.nameUser,
-                  orders: req.body.orders[indexOrders],
-                  qty: req.body.qty[indexOrders],
-                  price: price,
-                  totalPrice: PriceMenu,
-                  totalPay: finalPriceMenu,
-                  date: Date.now()
-                })
-
-                // <-- Get Transaction ID -->
-                Model.Transaction.findAll({
-                  where: {
-                    [Op.and]: [
-                      { totalPay: finalPriceMenu },
-                      { nameUser: req.body.nameUser }
-                    ]
-                  }
-                })
-                  .then((dataTransaction) => {
-                    const setDataTransaction = dataTransaction[0]
-                    const Transaction = setDataTransaction.dataValues
-                    const transactionID = Transaction.transactionID
-                    res.status(200).json({
-                      status: 200,
-                      transactionID: transactionID,
-                      message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
-                    })
-                  })
-                console.log('Transaction Success!')
               } else {
                 res.status(400).json({
                   status: 400,
@@ -1036,6 +1010,44 @@ controller.orders = async (req, res) => {
               }
             })
         }
+        const dataTotalPriceMenu = JSON.stringify(totalPricePerMenu)
+        const dataPricePerMenu = JSON.stringify(dataPriceMenu)
+        // // <-- Insert Data Transaction to database -->
+        Model.Transaction.create({
+          nameUser: req.body.nameUser,
+          orders: dataMenuUser,
+          qty: qtyMenuUser,
+          price: dataPricePerMenu,
+          totalPrice: dataTotalPriceMenu,
+          totalPay: finalPriceMenu,
+          date: Date.now()
+        })
+
+        // // <-- Get Transaction ID -->
+        Model.Transaction.findAll({
+          where: {
+            [Op.or]: [
+              { nameUser: req.body.nameUser },
+              { price: dataPricePerMenu }
+            ]
+          }
+        })
+          .then((dataTransaction) => {
+            const setDataTransaction = dataTransaction[0]
+            console.log(setDataTransaction)
+            const Transaction = setDataTransaction.dataValues
+            const transactionID = Transaction.transactionID
+            // console.log(transactionID)
+            res.status(200).json({
+              status: 200,
+              transactionID,
+              message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
+            })
+          })
+        console.log(dataMenuUser)
+        console.log(qtyMenuUser)
+        console.log(dataTotalPriceMenu)
+        console.log(dataPricePerMenu)
       } else {
         const qtyOrder = req.body.qty
         await Model.Product.findAll({ where: { nama: req.body.orders } })
