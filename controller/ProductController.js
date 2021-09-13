@@ -2,6 +2,7 @@
 
 const Model = require('../config/model/Index')
 const { Op } = require('sequelize')
+const dataTransaction = require('../config/model/Transaction')
 const controller = {}
 
 // <-- Controller All Menu -->
@@ -1024,11 +1025,15 @@ controller.orders = async (req, res) => {
         })
 
         // // <-- Get Transaction ID -->
+        const checkData = Model.Transaction.findAll({ where: { nameUser: req.body.nameUser } })
+        if (!checkData) {
+          return false
+        }
         Model.Transaction.findAll({
           where: {
             [Op.or]: [
-              { nameUser: req.body.nameUser },
-              { price: dataPricePerMenu }
+              { orders: dataMenuUser },
+              { nameUser: req.body.nameUser }
             ]
           }
         })
@@ -1043,11 +1048,11 @@ controller.orders = async (req, res) => {
               transactionID,
               message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
             })
+            console.log(dataTransaction)
+            console.log(setDataTransaction)
+            console.log(Transaction)
+            console.log(dataPricePerMenu)
           })
-        console.log(dataMenuUser)
-        console.log(qtyMenuUser)
-        console.log(dataTotalPriceMenu)
-        console.log(dataPricePerMenu)
       } else {
         const qtyOrder = req.body.qty
         await Model.Product.findAll({ where: { nama: req.body.orders } })
@@ -1085,8 +1090,8 @@ controller.orders = async (req, res) => {
               Model.Transaction.findAll({
                 where: {
                   [Op.and]: [
-                    { totalPay: newPrice },
-                    { nameUser: req.body.nameUser }
+                    { nameUser: req.body.nameUser },
+                    { orders: req.body.orders }
                   ]
                 }
               })
