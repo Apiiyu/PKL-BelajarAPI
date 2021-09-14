@@ -964,13 +964,10 @@ controller.deleteSnack = async (req, res) => {
 
 // <-- Controller Orders -->
 controller.orders = async (req, res) => {
-  // console.log(req.body.orders)
   try {
     if (req.headers.authorization) {
       const dataOrders = req.body.orders
       const dataQty = req.body.qty
-      // const reducer = (accumulator, currentValue) => accumulator + currentValue
-      // console.log(dataQty.reduce(reducer))
       const dataMenuUser = JSON.stringify(dataOrders)
       const qtyMenuUser = JSON.stringify(dataQty)
       const dataPriceMenu = []
@@ -1011,6 +1008,7 @@ controller.orders = async (req, res) => {
               }
             })
         }
+
         const dataTotalPriceMenu = JSON.stringify(totalPricePerMenu)
         const dataPricePerMenu = JSON.stringify(dataPriceMenu)
         // // <-- Insert Data Transaction to database -->
@@ -1025,33 +1023,48 @@ controller.orders = async (req, res) => {
         })
 
         // // <-- Get Transaction ID -->
-        const checkData = Model.Transaction.findAll({ where: { nameUser: req.body.nameUser } })
-        if (!checkData) {
-          return false
-        }
+        Model.Transaction.findAll({ where: { nameUser: req.body.nameUser } })
+          .then((response) => {
+            if (response.length < 1) {
+              console.log('Data Tidak tersedia')
+              return false
+            } else {
+              return true
+            }
+          })
+
         Model.Transaction.findAll({
           where: {
-            [Op.or]: [
-              { orders: dataMenuUser },
-              { nameUser: req.body.nameUser }
-            ]
+            date: {
+              [Op.gte]: [
+                { date: Date.now() }
+              ]
+            },
+            nameUser: req.body.nameUser,
+            orders: dataMenuUser
           }
         })
           .then((dataTransaction) => {
-            const setDataTransaction = dataTransaction[0]
-            console.log(setDataTransaction)
-            const Transaction = setDataTransaction.dataValues
-            const transactionID = Transaction.transactionID
-            // console.log(transactionID)
-            res.status(200).json({
-              status: 200,
-              transactionID,
-              message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
-            })
-            console.log(dataTransaction)
-            console.log(setDataTransaction)
-            console.log(Transaction)
-            console.log(dataPricePerMenu)
+            if (dataTransaction < 1) {
+              const transactionID = 'Error Transaction ID'
+              res.status(500).json({
+                status: 500,
+                transactionID,
+                message: 'Error from server'
+              })
+              return false
+            } else {
+              const setDataTransaction = dataTransaction[0]
+              // console.log(setDataTransaction)
+              const Transaction = setDataTransaction.dataValues
+              const transactionID = Transaction.transactionID
+              // console.log(transactionID)
+              res.status(200).json({
+                status: 200,
+                transactionID,
+                message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
+              })
+            }
           })
       } else {
         const qtyOrder = req.body.qty
@@ -1089,22 +1102,31 @@ controller.orders = async (req, res) => {
               // <-- Get Transaction ID -->
               Model.Transaction.findAll({
                 where: {
-                  [Op.and]: [
-                    { nameUser: req.body.nameUser },
-                    { orders: req.body.orders }
-                  ]
+                  nameUser: req.body.nameUser,
+                  orders: req.body.orders
                 }
               })
                 .then((transaction) => {
-                  const setDataTrans = transaction[0]
-                  const dataTransaction = setDataTrans.dataValues
-                  const transactionID = dataTransaction.transactionID
-                  console.log(transactionID)
-                  res.status(200).json({
-                    status: 200,
-                    transactionID: transactionID,
-                    message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
-                  })
+                  console.log(transaction)
+                  if (transaction.length < 1) {
+                    const transactionID = 'Error Transaction ID'
+                    res.status(500).json({
+                      status: 500,
+                      transactionID,
+                      message: 'Error from server'
+                    })
+                    return false
+                  } else {
+                    const setDataTrans = transaction[0]
+                    const dataTransaction = setDataTrans.dataValues
+                    const transactionID = dataTransaction.transactionID
+                    console.log(transactionID)
+                    res.status(200).json({
+                      status: 200,
+                      transactionID: transactionID,
+                      message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
+                    })
+                  }
                 })
             } else {
               res.status(400).json({
