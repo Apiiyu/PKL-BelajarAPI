@@ -1068,6 +1068,7 @@ controller.orders = async (req, res) => {
           })
       } else {
         const qtyOrder = req.body.qty
+        let totalPay = 0
         await Model.Product.findAll({ where: { nama: req.body.orders } })
           .then((result) => {
             if (result.length > 0) {
@@ -1077,6 +1078,7 @@ controller.orders = async (req, res) => {
               const newQty = qtyDefault - qtyOrder
               const defaultPrice = data.price
               const newPrice = defaultPrice * qtyOrder
+              totalPay += newPrice
 
               if (newQty < 0) {
                 res.status(200).json({
@@ -1086,8 +1088,7 @@ controller.orders = async (req, res) => {
                 return false
               }
 
-              Model.Product.update({ qty: newQty }, { where: { nama: req.body.orders[0] } })
-
+              Model.Product.update({ qty: newQty }, { where: { nama: req.body.orders } })
               // <-- Insert Data Transaction to database -->
               Model.Transaction.create({
                 nameUser: req.body.nameUser,
@@ -1099,35 +1100,8 @@ controller.orders = async (req, res) => {
                 date: Date.now()
               })
 
+              return false
               // <-- Get Transaction ID -->
-              Model.Transaction.findAll({
-                where: {
-                  nameUser: req.body.nameUser,
-                  orders: req.body.orders
-                }
-              })
-                .then((transaction) => {
-                  console.log(transaction)
-                  if (transaction.length < 1) {
-                    const transactionID = 'Error Transaction ID'
-                    res.status(500).json({
-                      status: 500,
-                      transactionID,
-                      message: 'Error from server'
-                    })
-                    return false
-                  } else {
-                    const setDataTrans = transaction[0]
-                    const dataTransaction = setDataTrans.dataValues
-                    const transactionID = dataTransaction.transactionID
-                    console.log(transactionID)
-                    res.status(200).json({
-                      status: 200,
-                      transactionID: transactionID,
-                      message: `Successfully received your order. You have to pay a price of Rp. ${newPrice} of to process your order`
-                    })
-                  }
-                })
             } else {
               res.status(400).json({
                 status: 400,
@@ -1135,6 +1109,43 @@ controller.orders = async (req, res) => {
               })
             }
           })
+
+        const filterProduct = await Model.Transaction.findAll({ where: { nameUser: req.body.nameUser } })
+        if (filterProduct.length > 0) {
+          await Model.Transaction.findAll({
+            where: {
+              nameUser: req.body.nameUser,
+              orders: req.body.orders,
+              totalPay: totalPay
+            }
+          })
+            .then((dataTransactionUser) => {
+              if (dataTransactionUser.length > 0) {
+                const setDataTrans = dataTransactionUser[0]
+                const dataTransaction = setDataTrans.dataValues
+                const transactionID = dataTransaction.transactionID
+                res.status(200).json({
+                  status: 200,
+                  transactionID: transactionID,
+                  message: `Successfully received your order. You have to pay a price of Rp. ${totalPay} of to process your order`
+                })
+              } else {
+                res.status(500).json({
+                  status: 500,
+                  transactionID: 'Error Transaction ID',
+                  message: 'Error From Server'
+                })
+                return false
+              }
+            })
+        } else {
+          res.status(404).json({
+            status: 400,
+            data: [],
+            message: 'Data Transaction not Found'
+          })
+        }
+        console.log(filterProduct)
       }
     } else {
       res.status(401).json({
