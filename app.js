@@ -7,6 +7,7 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const swaggerUI = require('swagger-ui-express')
 const apiDocumentation = require('./config/api/api-docs')
+const authentication = require('./config/lib/auth')
 const authTokens = {}
 const app = express()
 
@@ -29,7 +30,7 @@ const options = {
   customCss: '.swagger-ui .topbar {display: none}'
 }
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDocumentation, options))
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDocumentation, options), authentication)
 
 // <-- Stripe Payment Gateway -->
 const publishKey = 'pk_test_51JL1JaLNXpkOIJz68xqKw4e5rmDTXH8HFUJP7OJqFpsPYIsk3bzY74Kbccq7xiLWxHvct9LPDE0CziIAeeG5gxb400eaDJ4zoh'
@@ -77,7 +78,6 @@ app.post('/payment', (req, res) => {
     })
 })
 
-app.use('/api-product', require('./routes/product'))
 app.use('/authentication', require('./routes/authentication'))
 app.use((req, res, next) => {
   // Get auth token from the cookies
@@ -88,7 +88,7 @@ app.use((req, res, next) => {
 
   next()
 })
-
+app.use('/api-product', authentication, require('./routes/product'))
 app.use('/protected', require('./routes/protected'))
 // Error Handling
 app.get('*', (req, res) => {

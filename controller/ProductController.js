@@ -8,6 +8,7 @@ const controller = {}
 // <-- Controller All Menu -->
 
 controller.getAllDataMenu = async (req, res) => {
+  req.headers.authorization = 'Basic ' + Buffer.from('admin:admin').toString('base64')
   try {
     await Model.Product.findAll()
       .then((result) => {

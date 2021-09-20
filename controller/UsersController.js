@@ -15,6 +15,7 @@ controller.login = async (req, res) => {
       .then((result) => {
         if (result.length > 0) {
           res.cookie('authcookie', jwt.sign({ user: req.body.email }, 'users'))
+          console.log(req.cookies)
           res.status(200).json({
             status: 200,
             message: 'Successfully login into your account and added cookie'
@@ -56,6 +57,7 @@ controller.register = async (req, res) => {
 }
 
 controller.getAllData = async (req, res) => {
+  console.log(req.cookies.authcookie)
   try {
     await Model.Users.findAll()
       .then((result) => {
