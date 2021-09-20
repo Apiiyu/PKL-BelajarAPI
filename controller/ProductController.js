@@ -968,6 +968,7 @@ controller.orders = async (req, res) => {
     if (req.headers.authorization) {
       const dataOrders = req.body.orders
       const dataQty = req.body.qty
+      const TAX = 0.10
       const dataMenuUser = JSON.stringify(dataOrders)
       const qtyMenuUser = JSON.stringify(dataQty)
       const dataPriceMenu = []
@@ -1010,15 +1011,19 @@ controller.orders = async (req, res) => {
         }
 
         const dataTotalPriceMenu = JSON.stringify(totalPricePerMenu)
+        const totalTAX = finalPriceMenu * TAX
+        const finalPrice = finalPriceMenu + totalTAX
         const dataPricePerMenu = JSON.stringify(dataPriceMenu)
+        // const finalPrice = finalPriceMenu + totalTAX
         // // <-- Insert Data Transaction to database -->
         Model.Transaction.create({
           nameUser: req.body.nameUser,
           orders: dataMenuUser,
           qty: qtyMenuUser,
           price: dataPricePerMenu,
-          totalPrice: dataTotalPriceMenu,
-          totalPay: finalPriceMenu,
+          totalPrice: finalPriceMenu,
+          TAX: totalTAX,
+          totalPay: finalPrice,
           date: Date.now()
         })
 
@@ -1062,13 +1067,14 @@ controller.orders = async (req, res) => {
               res.status(200).json({
                 status: 200,
                 transactionID,
-                message: `Successfully received your order. You have to pay a price of Rp. ${finalPriceMenu} of to process your order`
+                message: `Successfully received your order. You have to pay a price of Rp. ${finalPrice} of to process your order`
               })
             }
           })
       } else {
         const qtyOrder = req.body.qty
         let totalPay = 0
+        const TAX = 0.10
         await Model.Product.findAll({ where: { nama: req.body.orders } })
           .then((result) => {
             if (result.length > 0) {
@@ -1078,7 +1084,9 @@ controller.orders = async (req, res) => {
               const newQty = qtyDefault - qtyOrder
               const defaultPrice = data.price
               const newPrice = defaultPrice * qtyOrder
-              totalPay += newPrice
+              const priceTAX = newPrice * TAX
+              const finalPrice = newPrice + priceTAX
+              totalPay += finalPrice
 
               if (newQty < 0) {
                 res.status(200).json({
@@ -1093,14 +1101,14 @@ controller.orders = async (req, res) => {
               Model.Transaction.create({
                 nameUser: req.body.nameUser,
                 orders: req.body.orders,
-                qty: req.body.qty,
+                qty: newQty,
                 price: defaultPrice,
                 totalPrice: newPrice,
-                totalPay: newPrice,
+                TAX: priceTAX,
+                totalPay: finalPrice,
                 date: Date.now()
               })
 
-              return false
               // <-- Get Transaction ID -->
             } else {
               res.status(400).json({
@@ -1111,6 +1119,7 @@ controller.orders = async (req, res) => {
           })
 
         const filterProduct = await Model.Transaction.findAll({ where: { nameUser: req.body.nameUser } })
+        console.log(filterProduct)
         if (filterProduct.length > 0) {
           await Model.Transaction.findAll({
             where: {
@@ -1139,13 +1148,12 @@ controller.orders = async (req, res) => {
               }
             })
         } else {
-          res.status(404).json({
+          res.status(400).json({
             status: 400,
             data: [],
             message: 'Data Transaction not Found'
           })
         }
-        console.log(filterProduct)
       }
     } else {
       res.status(401).json({

@@ -8,6 +8,7 @@ const dataTransaction = database.define('transaction', {
   qty: Sequelize.INTEGER,
   price: Sequelize.INTEGER,
   totalPrice: Sequelize.INTEGER,
+  TAX: Sequelize.INTEGER,
   totalPay: Sequelize.INTEGER,
   date: Sequelize.DATE
 }, {
