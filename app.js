@@ -88,6 +88,8 @@ app.use((req, res, next) => {
 
   next()
 })
+
+app.use('/users', authentication, require('./routes/users'))
 app.use('/api-product', authentication, require('./routes/product'))
 app.use('/protected', require('./routes/protected'))
 // Error Handling

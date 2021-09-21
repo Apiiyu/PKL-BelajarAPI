@@ -9,6 +9,10 @@
   "basePath": "/",
   "tags": [
     {
+      "name": "Authentication",
+      "description": "Authentication Login"
+    },
+    {
       "name": "Users",
       "description": "Users Data"
     },
@@ -37,38 +41,9 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/authentication/get-data": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Get all users data",
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "description":"The system will return of users data",
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Do not have access"
-          }
-        }
-      }
-    },
     "/authentication/login": {
       "post": {
-        "tags": ["Users"],
+        "tags": ["Authentication"],
         "summary": "Login into your account",
         "security": [
           {
@@ -115,7 +90,7 @@
     },
     "/authentication/register": {
       "post": {
-        "tags": ["Users"],
+        "tags": ["Authentication"],
         "summary": "Create new account!",
         "security": [
           {
@@ -163,7 +138,36 @@
         }
       }
     },
-    "/authentication/update": {
+    "/users/get-data": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users data",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "description":"The system will return of users data",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Do not have access"
+          }
+        }
+      }
+    },
+    "/users/update": {
       "put": {
         "tags": ["Users"],
         "summary": "Update your account!",
@@ -216,7 +220,7 @@
         }
       }
     },
-    "/authentication/delete": {
+    "/users/delete": {
       "delete": {
         "tags": ["Users"],
         "summary": "Delete account!",

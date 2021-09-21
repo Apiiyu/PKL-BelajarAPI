@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
   jwt.verify(authcookie, 'users', (err, data) => {
     if (err) {
       res.status(401).json({
+        status: 401,
         message: 'Unauthorized'
       })
     } else if (data.user) {
