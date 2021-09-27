@@ -53,24 +53,28 @@ router.delete('/delete-menu', controller.ProductController.deleteMenu)
 
 // <-- Router Section Detail Menu -->
 router.get('/detail-menu/:itemCode', controller.ProductController.detailMenu)
+
 router.post('/create-detail-menu', controller.ProductController.createDetailMenu)
 router.put('update-detail-menu', controller.ProductController.updateDetailMenu)
 router.delete('/delete-detail-menu', controller.ProductController.deleteDetailMenu)
 
 // <-- Router Section Foods -->
 router.get('/foods', controller.ProductController.getAllDataFood)
+router.get('/filter-menu-food/:name', controller.ProductController.filterMenuFood)
 router.post('/create-food', uploadFoods.single('image'), controller.ProductController.createFood)
 router.put('/update-food', controller.ProductController.updateFood)
 router.delete('/delete-food', controller.ProductController.deleteFood)
 
 // <-- Router Section Drinks -->
 router.get('/drinks', controller.ProductController.getAllDataDrink)
+router.get('/filter-menu-drink/:name', controller.ProductController.filterMenuDrink)
 router.post('/create-drink', uploadDrinks.single('image'), controller.ProductController.createDrink)
 router.put('/update-drink', controller.ProductController.updateDrink)
 router.delete('/delete-drink', controller.ProductController.deleteDrink)
 
 // <-- Router Section Snacks -->
 router.get('/snacks', controller.ProductController.getAllDataSnacks)
+router.get('/filter-menu-snack/:name', controller.ProductController.filterMenuSnack)
 router.post('/create-snack', uploadSnacks.single('image'), controller.ProductController.createSnack)
 router.put('/update-snack', controller.ProductController.updateSnack)
 router.delete('/delete-snack', controller.ProductController.deleteSnack)
